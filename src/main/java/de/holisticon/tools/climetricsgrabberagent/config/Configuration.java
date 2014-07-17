@@ -1,9 +1,8 @@
 package de.holisticon.tools.climetricsgrabberagent.config;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 /**
  * Configuration bean.
+ *
  * @author Tobias Gindler, Holisticon AG
  */
 public class Configuration {
@@ -17,7 +16,6 @@ public class Configuration {
         return outputWriterConfigs;
     }
 
-    @JsonProperty("outputWriterConfigs")
     public void setOutputWriterConfigs(OutputWriterConfig[] outputWriterConfigs) {
         this.outputWriterConfigs = outputWriterConfigs;
     }
@@ -32,7 +30,6 @@ public class Configuration {
     }
 
 
-
     public int getNrOfMetricThreads() {
         return nrOfMetricThreads;
     }
@@ -45,7 +42,6 @@ public class Configuration {
         return metricReaders;
     }
 
-    @JsonProperty("metricReaders")
     public void setMetricReaders(MetricReaderConfig[] metricReaders) {
         this.metricReaders = metricReaders;
     }

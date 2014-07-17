@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
+/*
+ *
  * @author Tobias Gindler, Holistion AG on 17.07.14.
  */
-public class JbossCliReader extends AbstractMetricReader{
+public class JBossCliReader extends AbstractMetricReader{
 
 
     @Override

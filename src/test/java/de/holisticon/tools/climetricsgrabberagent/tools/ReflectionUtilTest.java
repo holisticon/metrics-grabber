@@ -1,8 +1,8 @@
 package de.holisticon.tools.climetricsgrabberagent.tools;
 
+import de.holisticon.tools.climetricsgrabberagent.input.JBossCliReader;
 import de.holisticon.tools.climetricsgrabberagent.input.MetricReader;
 import de.holisticon.tools.climetricsgrabberagent.output.OutputWriter;
-import de.holisticon.tools.climetricsgrabberagent.input.JbossCliReader;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.hamcrest.Matchers;
@@ -16,7 +16,7 @@ public class ReflectionUtilTest {
     @Test
     public void createInstance_should_create_instance() {
 
-        String givenClassName = JbossCliReader.class.getCanonicalName();
+        String givenClassName = JBossCliReader.class.getCanonicalName();
         Class<MetricReader> givenResultType = MetricReader.class;
 
         MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
@@ -29,7 +29,7 @@ public class ReflectionUtilTest {
     @Test
          public void createInstance_should__not_create_instance_for_not_existing_type() {
 
-        String givenClassName = JbossCliReader.class.getCanonicalName() + "XXX";
+        String givenClassName = JBossCliReader.class.getCanonicalName() + "XXX";
         Class<MetricReader> givenResultType = MetricReader.class;
 
         MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
@@ -42,7 +42,7 @@ public class ReflectionUtilTest {
     @Test
     public void createInstance_should__not_create_instance_for_not_matching_type() {
 
-        String givenClassName = JbossCliReader.class.getCanonicalName();
+        String givenClassName = JBossCliReader.class.getCanonicalName();
         Class<OutputWriter> givenResultType = OutputWriter.class;
 
         OutputWriter reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
@@ -68,7 +68,7 @@ public class ReflectionUtilTest {
     @Test
     public void createInstance_should__not_create_instance_for_null_valued_return_type() {
 
-        String givenClassName = JbossCliReader.class.getCanonicalName();
+        String givenClassName = JBossCliReader.class.getCanonicalName();
         Class<MetricReader> givenResultType = null;
 
         MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);

@@ -19,7 +19,7 @@
         ]
     }],
     "metricReaders": [{
-        "type" : "de.holisticon.tools.climetricsgrabberagent.input.JbossCliReader",
+        "type" : "de.holisticon.tools.climetricsgrabberagent.input.JBossCliReader",
         "active" : true,
         "metrics" : [
             {

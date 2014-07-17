@@ -7,9 +7,9 @@ import de.holisticon.tools.climetricsgrabberagent.config.OutputWriterConfig;
 import de.holisticon.tools.climetricsgrabberagent.input.MetricReader;
 import de.holisticon.tools.climetricsgrabberagent.output.OutputWriter;
 import de.holisticon.tools.climetricsgrabberagent.tools.ActivateableFilter;
+import de.holisticon.tools.climetricsgrabberagent.tools.JsonUtil;
 import de.holisticon.tools.climetricsgrabberagent.tools.NamedThreadFactory;
 import de.holisticon.tools.climetricsgrabberagent.tools.ReflectionUtil;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,9 +73,8 @@ public class CliMetricsGrabberAgent {
      */
     public static void main(String[] args) throws IOException {
 
-        // read configuration
-        ObjectMapper mapper = new ObjectMapper();
-        Configuration configuration = mapper.readValue(new File(args[0]), Configuration.class);
+        Configuration configuration = JsonUtil.readJsonFromFile(args[0], Configuration.class);
+
 
         metricGrabber =  Executors.newScheduledThreadPool(configuration.getNrOfMetricThreads(), new NamedThreadFactory("cli-metrics-grabber-", true));
 
