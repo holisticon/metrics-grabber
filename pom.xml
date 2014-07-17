@@ -81,7 +81,6 @@
         <logback.version>0.9.30</logback.version>
         <gson.version>2.2.4</gson.version>
         <jbossas.version>7.2.0.Final</jbossas.version>
-        <commons.pool.version>1.6</commons.pool.version>
         <jsr305.version>2.0.3</jsr305.version>
     </properties>
 
@@ -360,12 +359,6 @@
                 <artifactId>jboss-as-cli</artifactId>
                 <version>${jbossas.version}</version>
                 <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-pool</groupId>
-                <artifactId>commons-pool</artifactId>
-                <version>${commons.pool.version}</version>
             </dependency>
 
         </dependencies>
