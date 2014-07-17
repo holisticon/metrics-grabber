@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Tobias Gindler, Holistion AG on 17.07.14.
  */
-public class CliReader extends AbstractMetricReader{
+public class JbossCliReader extends AbstractMetricReader{
 
 
     @Override

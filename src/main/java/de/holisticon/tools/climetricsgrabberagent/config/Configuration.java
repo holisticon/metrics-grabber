@@ -10,9 +10,7 @@ public class Configuration {
 
     private String nodeName;
     private int nrOfMetricThreads;
-
-    private MetricConfiguration[] metrics;
-
+    private MetricReaderConfig[] metricReaders;
     private OutputWriterConfig[] outputWriterConfigs;
 
     public OutputWriterConfig[] getOutputWriterConfigs() {
@@ -33,13 +31,7 @@ public class Configuration {
         this.nodeName = nodeName;
     }
 
-    public MetricConfiguration[] getMetrics() {
-        return metrics;
-    }
 
-    public void setMetrics(MetricConfiguration[] metrics) {
-        this.metrics = metrics;
-    }
 
     public int getNrOfMetricThreads() {
         return nrOfMetricThreads;
@@ -49,5 +41,12 @@ public class Configuration {
         this.nrOfMetricThreads = nrOfMetricThreads;
     }
 
+    public MetricReaderConfig[] getMetricReaders() {
+        return metricReaders;
+    }
 
+    @JsonProperty("metricReaders")
+    public void setMetricReaders(MetricReaderConfig[] metricReaders) {
+        this.metricReaders = metricReaders;
+    }
 }

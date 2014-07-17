@@ -2,15 +2,13 @@ package de.holisticon.tools.climetricsgrabberagent;
 
 import de.holisticon.tools.climetricsgrabberagent.config.Configuration;
 import de.holisticon.tools.climetricsgrabberagent.config.MetricConfiguration;
+import de.holisticon.tools.climetricsgrabberagent.config.MetricReaderConfig;
 import de.holisticon.tools.climetricsgrabberagent.config.OutputWriterConfig;
-import de.holisticon.tools.climetricsgrabberagent.input.CliReader;
+import de.holisticon.tools.climetricsgrabberagent.input.JbossCliReader;
+import de.holisticon.tools.climetricsgrabberagent.tools.ActivateableFilter;
 import de.holisticon.tools.climetricsgrabberagent.tools.NamedThreadFactory;
+import de.holisticon.tools.climetricsgrabberagent.tools.ReflectionUtil;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jboss.as.cli.CliInitializationException;
-import org.jboss.as.cli.CommandContext;
-import org.jboss.as.cli.CommandContextFactory;
-import org.jboss.as.cli.CommandLineException;
-import org.jboss.dmr.ModelNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,20 +37,28 @@ public class CliMetricsGrabberAgent {
 
         List<OutputWriter> list = new ArrayList<OutputWriter>();
 
-        for (OutputWriterConfig outputWriterConfig : configuration.getOutputWriterConfigs()) {
+        for (OutputWriterConfig outputWriterConfig : ActivateableFilter.filterActivateableArray(configuration.getOutputWriterConfigs(), OutputWriterConfig.class)) {
 
-            try {
-                OutputWriter outputWriter = (OutputWriter)Class.forName(outputWriterConfig.getOutputWriterClassName()).newInstance();
-                outputWriter.setInitParameters(outputWriterConfig.getInitParameters());
-                outputWriter.init(configuration.getNodeName());
 
-                list.add(outputWriter);
+                OutputWriter outputWriter = ReflectionUtil.createInstance(outputWriterConfig.getOutputWriterClassName(),OutputWriter.class);
+                if (outputWriter == null) {
+                    logger.error("Couldn't create configured output writer with type : {}", outputWriterConfig.getOutputWriterClassName());
+                } else {
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                    try {
+
+                        outputWriter.setInitParameters(outputWriterConfig.getInitParameters());
+                        outputWriter.init(configuration.getNodeName());
+
+                        list.add(outputWriter);
+
+                    } catch (Exception e) {
+                        logger.error("Couldn't create configured output writer with type : {}", outputWriterConfig.getOutputWriterClassName(),e);
+                    }
+
+                }
             }
 
-        }
 
 
         return list.toArray(new OutputWriter[list.size()]);
@@ -76,32 +82,46 @@ public class CliMetricsGrabberAgent {
 
 
 
+        for (MetricReaderConfig metricReaderConfig : ActivateableFilter.filterActivateableArray(configuration.getMetricReaders(), MetricReaderConfig.class)){
 
-        for (final MetricConfiguration metricConfiguration : configuration.getMetrics()) {
+            // now create metric reader via reflection
+            final MetricReader metricReader = ReflectionUtil.createInstance(metricReaderConfig.getType(),MetricReader.class);
+            if (metricReader == null) {
 
-            metricGrabber.scheduleWithFixedDelay(new Runnable() {
-                @Override
-                public void run() {
+                logger.error("Couldn't create configured metric reader with type : {}", metricReaderConfig.getType());
 
-                    MetricReader metricReader = new CliReader();
+            } else {
+
+                logger.info("Metric reader with type {} was successfully created.", metricReaderConfig.getType());
+
+                for (final MetricConfiguration metricConfiguration : ActivateableFilter.filterActivateableArray(metricReaderConfig.getMetrics(), MetricConfiguration.class)) {
+
+                    metricGrabber.scheduleWithFixedDelay(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            List<Metric> metrics = metricReader.readMetrics(metricConfiguration) ;
+
+                            if (metrics != null && metrics.size() > 0) {
+
+                                for (Metric metric : metrics) {
+                                    logger.info("[" + metric.getTimestamp() +"] : '" + metric.getName() +  "' := '" +  metric.getValue()+"'");
+                                }
+
+                                for (OutputWriter outputWriter : outputWriters) {
+                                    outputWriter.writeMetrics(metrics);
+                                }
+                            }
 
 
-                    List<Metric> metrics = metricReader.readMetrics(metricConfiguration) ;
-                    for (Metric metric : metrics) {
-                        logger.info("[" + metric.getTimestamp() +"] : '" + metric.getName() +  "' := '" +  metric.getValue()+"'");
-                    }
+                        }
+                    }, 1, metricConfiguration.getQueryIntervalInSeconds(), TimeUnit.SECONDS);
 
-                    for (OutputWriter outputWriter : outputWriters) {
-                        outputWriter.writeMetrics(metrics);
-                    }
+
 
 
                 }
-            }, 1, metricConfiguration.getQueryIntervalInSeconds(), TimeUnit.SECONDS);
-
-
-
-
+            }
         }
 
         while (true) {

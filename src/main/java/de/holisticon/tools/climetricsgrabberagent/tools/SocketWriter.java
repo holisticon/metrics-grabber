@@ -9,7 +9,8 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 
 /**
- * Created by TGI on 04.07.14.
+ * Creates a socket and provides an interface to write to the socket.
+ * @author Tobias Gindler, Holisticon AG on 04.07.14.
  */
 public class SocketWriter extends FilterWriter {
 

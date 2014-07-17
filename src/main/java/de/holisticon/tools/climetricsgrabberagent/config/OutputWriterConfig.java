@@ -1,12 +1,16 @@
 package de.holisticon.tools.climetricsgrabberagent.config;
 
+import de.holisticon.tools.climetricsgrabberagent.Activateable;
+
 /**
- * Created by TGI on 04.07.14.
+ * Class that encapsulates a output writer configuration.
+ * @author  Tobias Gindler, Holisticon AG on 04.07.14.
  */
-public class OutputWriterConfig {
+public class OutputWriterConfig implements Activateable{
 
     private String outputWriterClassName;
     private InitParameter[] initParameters;
+    private boolean active = true;
 
     public String getOutputWriterClassName() {
         return outputWriterClassName;
@@ -24,4 +28,11 @@ public class OutputWriterConfig {
         this.initParameters = initParameters;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
