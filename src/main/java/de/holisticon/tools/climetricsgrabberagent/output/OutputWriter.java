@@ -1,5 +1,6 @@
-package de.holisticon.tools.climetricsgrabberagent;
+package de.holisticon.tools.climetricsgrabberagent.output;
 
+import de.holisticon.tools.climetricsgrabberagent.Metric;
 import de.holisticon.tools.climetricsgrabberagent.config.InitParameter;
 import de.holisticon.tools.climetricsgrabberagent.output.InitParameterException;
 

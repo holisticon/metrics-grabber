@@ -1,7 +1,7 @@
 package de.holisticon.tools.climetricsgrabberagent.tools;
 
-import de.holisticon.tools.climetricsgrabberagent.MetricReader;
-import de.holisticon.tools.climetricsgrabberagent.OutputWriter;
+import de.holisticon.tools.climetricsgrabberagent.input.MetricReader;
+import de.holisticon.tools.climetricsgrabberagent.output.OutputWriter;
 import de.holisticon.tools.climetricsgrabberagent.input.JbossCliReader;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

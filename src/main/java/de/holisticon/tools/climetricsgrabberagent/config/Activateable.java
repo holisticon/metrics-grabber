@@ -1,4 +1,4 @@
-package de.holisticon.tools.climetricsgrabberagent;
+package de.holisticon.tools.climetricsgrabberagent.config;
 
 /**
  * Interface to allow checks if an instance is active or not.

@@ -1,6 +1,5 @@
 package de.holisticon.tools.climetricsgrabberagent.output;
 
-import de.holisticon.tools.climetricsgrabberagent.OutputWriter;
 import de.holisticon.tools.climetricsgrabberagent.config.InitParameter;
 
 import java.util.HashMap;

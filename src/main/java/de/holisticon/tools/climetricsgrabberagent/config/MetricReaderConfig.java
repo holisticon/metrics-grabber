@@ -1,7 +1,5 @@
 package de.holisticon.tools.climetricsgrabberagent.config;
 
-import de.holisticon.tools.climetricsgrabberagent.Activateable;
-
 /**
  * Class that encapsulates a metric reader configuration.
  * @author Tobias Gindler, Holisticon AG on 17.07.14.

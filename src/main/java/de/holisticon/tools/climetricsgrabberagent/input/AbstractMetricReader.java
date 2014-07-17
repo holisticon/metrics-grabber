@@ -1,6 +1,5 @@
 package de.holisticon.tools.climetricsgrabberagent.input;
 
-import de.holisticon.tools.climetricsgrabberagent.MetricReader;
 import de.holisticon.tools.climetricsgrabberagent.config.InitParameter;
 import de.holisticon.tools.climetricsgrabberagent.output.InitParameterException;
 import org.slf4j.Logger;

@@ -1,7 +1,5 @@
 package de.holisticon.tools.climetricsgrabberagent.config;
 
-import de.holisticon.tools.climetricsgrabberagent.Activateable;
-
 import java.util.HashSet;
 import java.util.Set;
 
