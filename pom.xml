@@ -1,10 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.holisticon.tools.cli-metrics-grabber-agent</groupId>
-    <artifactId>cli-metrics-grabber-agent</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <groupId>de.holisticon.tools.monitoring.metricsgrabber</groupId>
+    <artifactId>metrics-grabber-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>core</module>
+        <module>agent</module>
+        <module>embedded</module>
+    </modules>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -13,9 +19,9 @@
         <relativePath />
     </parent>
 
-    <name>cli-metrics-grabber-agent</name>
-    <description>Please refer to https://github.com/holisticon/cli-metrics-grabber-agent</description>
-    <url>https://github.com/holisticon/cli-metrics-grabber-agent</url>
+    <name>metrics-grabber</name>
+    <description>Please refer to https://github.com/holisticon/metrics-grabber</description>
+    <url>https://github.com/holisticon/metrics-grabber</url>
 
     <organization>
         <name>Holisticon AG</name>
@@ -48,14 +54,14 @@
     </prerequisites>
 
     <issueManagement>
-        <url>https://github.com/holisticon/cli-metrics-grabber-agent/issues</url>
+        <url>https://github.com/holisticon/metrics-grabber/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:holisticon/cli-metrics-grabber-agent.git</connection>
-        <developerConnection>scm:git:git@github.com:holisticon/cli-metrics-grabber-agent.git</developerConnection>
-        <url>git@github.com:holisticon/cli-metrics-grabber-agent.git</url>
+        <connection>scm:git:git@github.com:holisticon/metrics-grabber.git</connection>
+        <developerConnection>scm:git:git@github.com:holisticon/metrics-grabber.git</developerConnection>
+        <url>git@github.com:holisticon/metrics-grabber.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -73,7 +79,7 @@
         <!-- dependency versions -->
         <slf4j.version>1.6.6</slf4j.version>
         <logback.version>0.9.30</logback.version>
-
+        <gson.version>2.2.4</gson.version>
         <jbossas.version>7.2.0.Final</jbossas.version>
         <commons.pool.version>1.6</commons.pool.version>
         <jsr305.version>2.0.3</jsr305.version>
@@ -297,59 +303,76 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+
         <!-- Provided dependencies -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-cli</artifactId>
-            <version>${jbossas.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-pool</groupId>
-            <artifactId>commons-pool</artifactId>
-            <version>${commons.pool.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>${jsr305.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-
-
-
     </dependencies>
+
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <!-- compile dependencies -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-cli</artifactId>
+                <version>${jbossas.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-pool</groupId>
+                <artifactId>commons-pool</artifactId>
+                <version>${commons.pool.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+
 
 
 </project>
