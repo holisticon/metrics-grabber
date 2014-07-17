@@ -1,0 +1,27 @@
+{
+    "nodeName" : "tgi",
+    "nrOfMetricThreads" : 4,
+    "outputWriterConfigs" : {
+        "outputWriterClassName":"de.holisticon.tools.climetricsgrabberagent.output.GraphiteWriter",
+        "initParameters": [
+            {
+                "name":"url",
+                "ip":"127.0.0.1"
+            },
+            {
+                "name":"port",
+                "value":"2003"
+            },
+            {
+                "name":"charset",
+                "value":"UTF-8"
+            }
+        ]
+    },
+    "metrics" : [
+        {
+            "metricQueryString":"ABC",
+            "queryIntervalInSeconds": 10
+        }
+    ]
+}
