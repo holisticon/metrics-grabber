@@ -5,6 +5,7 @@ import de.holisticon.tools.climetricsgrabberagent.config.MetricConfiguration;
 import org.jboss.as.cli.CliInitializationException;
 import org.jboss.as.cli.CommandContext;
 import org.jboss.as.cli.CommandContextFactory;
+import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author Tobias Gindler, Holistion AG on 17.07.14.
  */
-public class JBossCliReader extends AbstractMetricReader{
+public class JBossCliReader extends AbstractMetricReader {
 
 
     @Override
@@ -31,11 +32,12 @@ public class JBossCliReader extends AbstractMetricReader{
         final CommandContext ctx;
         try {
             ctx = CommandContextFactory.getInstance().newCommandContext();
-        } catch(CliInitializationException e) {
+        } catch (CliInitializationException e) {
             throw new IllegalStateException("Failed to initialize CLI context", e);
         }
 
         try {
+
 
             long timestamp = Calendar.getInstance().getTimeInMillis();
 
@@ -44,8 +46,8 @@ public class JBossCliReader extends AbstractMetricReader{
 
             // execute commands and operations
             ModelNode request = ctx.buildRequest(query);
-
-            ModelNode response = ctx.getModelControllerClient().execute(request);
+            ModelControllerClient modelControllerClient = ctx.getModelControllerClient();
+            ModelNode response = modelControllerClient.execute(request);
 
             boolean requestWasSuccessful = "success".equals(response.get("outcome").asString());
 
@@ -53,18 +55,19 @@ public class JBossCliReader extends AbstractMetricReader{
 
                 ModelNode resultNode = response.get("result");
 
-                if (metricConfiguration.getMetricsAsSet() != null && metricConfiguration.getMetricsAsSet().size() >0) {
+                if (metricConfiguration.getMetricsAsSet() != null && metricConfiguration.getMetricsAsSet().size() > 0) {
 
                     for (String key : metricConfiguration.getAttributes()) {
                         if (metricConfiguration.getMetricsAsSet().contains(key)) {
-                            results.add(new Metric(metricConfiguration.getMetricPrefix()+"."+key,resultNode.get(key).asString(),timestamp));
+                            results.add(new Metric(metricConfiguration.getMetricPrefix() + "." + key, resultNode.get(key).asString(), timestamp));
                         }
                     }
                 } else {
                     for (String key : resultNode.keys()) {
-                        results.add(new Metric(metricConfiguration.getMetricPrefix()+"."+key,resultNode.get(key).asString(),timestamp));
+                        results.add(new Metric(metricConfiguration.getMetricPrefix() + "." + key, resultNode.get(key).asString(), timestamp));
                     }
                 }
+
 
             }
 
@@ -72,20 +75,21 @@ public class JBossCliReader extends AbstractMetricReader{
             //String value =  modelNode.get(key);
             //}
 
-            System.out.println("");
 
         } catch (Exception e) {
             // the operation or the command has failed
             logger.error("Error occurred during execution of query '" + query + "'", e);
-        }  finally {
+        } finally {
             // terminate the session and
             // close the connection to the controller
             try {
+
                 if (!ctx.isTerminated()) {
-                    ctx.terminateSession();
+                    // WTF : Terminating the session leads to exceptions, must check if session is terminated implicit to avoid resource leak
+                    //ctx.terminateSession();
                 }
-            } catch (Exception e ) {
-                logger.debug(e.getMessage(),e);
+            } catch (Exception e) {
+                logger.debug(e.getMessage(), e);
             }
         }
 
