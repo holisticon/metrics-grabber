@@ -33,11 +33,11 @@ public class JBossCliReader extends AbstractMetricReader {
         try {
             ctx = CommandContextFactory.getInstance().newCommandContext();
         } catch (CliInitializationException e) {
+            logger.error("Failed to initialize CLI context", e);
             throw new IllegalStateException("Failed to initialize CLI context", e);
         }
 
         try {
-
 
             long timestamp = Calendar.getInstance().getTimeInMillis();
 
@@ -48,6 +48,7 @@ public class JBossCliReader extends AbstractMetricReader {
             ModelNode request = ctx.buildRequest(query);
             ModelControllerClient modelControllerClient = ctx.getModelControllerClient();
             ModelNode response = modelControllerClient.execute(request);
+
 
             boolean requestWasSuccessful = "success".equals(response.get("outcome").asString());
 
@@ -68,12 +69,16 @@ public class JBossCliReader extends AbstractMetricReader {
                     }
                 }
 
-
             }
 
-            //for (String key : modelNode.keys()) {
-            //String value =  modelNode.get(key);
-            //}
+            // cleanup
+            request.clear();
+            response.clear();
+
+            // close model controller client
+            modelControllerClient.close();
+
+
 
 
         } catch (Exception e) {
@@ -84,10 +89,16 @@ public class JBossCliReader extends AbstractMetricReader {
             // close the connection to the controller
             try {
 
+                // disconnect
+                ctx.disconnectController();
+
                 if (!ctx.isTerminated()) {
                     // WTF : Terminating the session leads to exceptions, must check if session is terminated implicit to avoid resource leak
-                    //ctx.terminateSession();
+                    ctx.terminateSession();
                 }
+
+
+
             } catch (Exception e) {
                 logger.debug(e.getMessage(), e);
             }

@@ -2,6 +2,12 @@
     "nodeName" : "tgi",
     "nrOfMetricThreads" : 1,
     "outputWriterConfigs" : [{
+         "outputWriterClassName":"de.holisticon.monitoring.tools.metricsgrabber.core.output.Slf4jWriter",
+         "initParameters": [
+
+         ]
+     },
+     {
         "outputWriterClassName":"de.holisticon.monitoring.tools.metricsgrabber.core.output.GraphiteWriter",
         "initParameters": [
             {
@@ -23,33 +29,33 @@
         "active" : true,
         "metrics" : [
             {
-                "metricPrefix":"cnote.dbpool.ProcessEngine",
+                "metricPrefix":"example.dbpool.ProcessEngine",
                 "metricQueryString":"/subsystem=datasources/xa-data-source=ProcessEngine/statistics=pool:read-resource(include-runtime=true)",
-                "queryIntervalInSeconds": 10,
+                "queryIntervalInSeconds": 4,
                 "active" : false
             },
             {
-                "metricPrefix":"cnote.dbpool.archiveserviceDS",
+                "metricPrefix":"example.dbpool.archiveserviceDS",
                 "metricQueryString":"/subsystem=datasources/xa-data-source=archiveserviceDS/statistics=pool:read-resource(include-runtime=true)",
-                "queryIntervalInSeconds": 10
+                "queryIntervalInSeconds": 4
             },
             {
               "metricQueryString": "/subsystem=threads/bounded-queue-thread-pool=job-executor-tp:read-resource(include-runtime=true)",
-              "metricPrefix": "cnote.threadpool.jobexecutor",
+              "metricPrefix": "example.threadpool.jobexecutor",
               "attributes": ["currentThreadCount","maxThreads","queueSize","queueLength","largestThreadCount","coreThreads"],
-              "queryIntervalInSeconds": 10
+              "queryIntervalInSeconds": 4
             },
             {
               "metricQueryString": "/subsystem=jca/workmanager=default/short-running-threads=default:read-resource(include-runtime=true)",
-              "metricPrefix": "cnote.threadpool.jca.short-running-threads",
+              "metricPrefix": "example.threadpool.jca.short-running-threads",
               "attributes": ["currentThreadCount","maxThreads","queueSize","queueLength","largestThreadCount","coreThreads"],
-              "queryIntervalInSeconds": 10
+              "queryIntervalInSeconds": 4
             },
             {
               "metricQueryString": "/subsystem=jca/workmanager=default/long-running-threads=default:read-resource(include-runtime=true)",
-              "metricPrefix": "cnote.threadpool.jca.long-running-threads",
+              "metricPrefix": "example.threadpool.jca.long-running-threads",
               "attributes": ["currentThreadCount","maxThreads","queueSize","queueLength","largestThreadCount","coreThreads"],
-              "queryIntervalInSeconds": 10
+              "queryIntervalInSeconds": 4
             }
 
         ]
@@ -59,13 +65,13 @@
         "active" : false,
         "metrics" : [
             {
-                "metricPrefix":"cnote.dbpool.ProcessEngine",
+                "metricPrefix":"example.dbpool.ProcessEngine",
                 "metricQueryString":"jboss.as.expr:subsystem=datasources,xa-data-source=ProcessEngine,statistics=pool",
                 "queryIntervalInSeconds": 10,
                 "active" : false
             },
             {
-                "metricPrefix":"cnote.dbpool.archiveserviceDS",
+                "metricPrefix":"example.dbpool.archiveserviceDS",
                 "metricQueryString":"jboss.as.expr:subsystem=datasources,xa-data-source=archiveserviceDS,statistics=pool",
                 "queryIntervalInSeconds": 10
             }

@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 /**
  * Metrics grabber agent for JBoss As 7+.
@@ -20,6 +22,35 @@ public class CliMetricsGrabberAgent {
     private static final Logger logger = LoggerFactory.getLogger(CliMetricsGrabberAgent.class);
 
 
+    private static void init() {
+        // Now get rid of the annoying system.out and system.err of jboss cli api !!!
+        OutputStream nullWriter = new OutputStream() {
+            @Override
+            public void write(byte[] b) throws IOException {
+                super.write(b);
+            }
+
+            @Override
+            public void write(byte[] b, int off, int len) throws IOException {
+            }
+
+            @Override
+            public void flush() throws IOException {
+            }
+
+            @Override
+            public void close() throws IOException {
+            }
+
+            @Override
+            public void write(int b) throws IOException {
+
+            }
+        };
+
+        System.setErr(new PrintStream(nullWriter));
+    }
+
 
     /**
      * Entry point for metrics agent
@@ -28,6 +59,14 @@ public class CliMetricsGrabberAgent {
      */
     public static void main(String[] args) throws IOException {
 
+        if (args.length == 0) {
+            System.out.println("You have defined no configuration file parameter:\njava -jar metric-grabber-agent <configfile.json>");
+            System.exit(-1);
+        }
+
+        init();
+
+        // get configuration
         Configuration configuration = JsonUtil.readJsonFromFile(args[0], Configuration.class);
 
         // start the metrics grabber
@@ -50,5 +89,7 @@ public class CliMetricsGrabberAgent {
 
 
     }
+
+
 
 }

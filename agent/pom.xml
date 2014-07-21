@@ -51,7 +51,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <descriptor>src/assembly/bin.xml</descriptor>
+                    <descriptor>src/assembly/assembly.xml</descriptor>
                     <finalName>metrics-grabber-agent-${pom.version}</finalName>
                 </configuration>
                 <executions>
@@ -69,7 +69,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>de.holisticon.tools.monitoring.metricsgrabber</groupId>
+            <groupId>de.holisticon.monitoring.tools.metricsgrabber</groupId>
             <artifactId>metrics-grabber-core</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <scope>compile</scope>
@@ -97,7 +97,6 @@
         <dependency>
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-cli</artifactId>
-            <version>${jbossas.version}</version>
             <scope>compile</scope>
         </dependency>
 

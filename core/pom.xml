@@ -68,11 +68,7 @@
             <version>${jbossas.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-pool</groupId>
-            <artifactId>commons-pool</artifactId>
-            <version>${commons.pool.version}</version>
-        </dependency>
+
 
     </dependencies>
 

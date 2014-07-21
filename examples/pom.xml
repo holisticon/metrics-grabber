@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>metrics-grabber-examples</artifactId>
-    <packaging>bundle</packaging>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>de.holisticon.monitoring.tools.metricsgrabber</groupId>

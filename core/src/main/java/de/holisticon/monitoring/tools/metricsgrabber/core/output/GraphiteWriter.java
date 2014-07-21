@@ -2,6 +2,7 @@ package de.holisticon.monitoring.tools.metricsgrabber.core.output;
 
 import de.holisticon.monitoring.tools.metricsgrabber.core.Metric;
 import de.holisticon.monitoring.tools.metricsgrabber.core.tools.SocketWriter;
+import de.holisticon.monitoring.tools.metricsgrabber.core.tools.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public class GraphiteWriter extends AbstractOutputWriter {
 
         for (Metric metric : metrics) {
 
-            metricLines.append(nodeIdentifier).append(".").append(metric.getName()).append(" ").append(metric.getValue()).append(" ").append(metric.getTimestamp()).append("\n");
+            metricLines.append(nodeIdentifier).append(".").append(metric.getName()).append(" ").append(StringUtil.replaceWhitespaces(metric.getValue().toString())).append(" ").append(metric.getTimestamp()).append("\n");
 
         }
 

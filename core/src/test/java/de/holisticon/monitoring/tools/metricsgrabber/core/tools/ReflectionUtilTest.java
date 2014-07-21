@@ -4,12 +4,13 @@ import de.holisticon.monitoring.tools.metricsgrabber.core.input.JBossCliReader;
 import de.holisticon.monitoring.tools.metricsgrabber.core.input.MetricReader;
 import de.holisticon.monitoring.tools.metricsgrabber.core.output.OutputWriter;
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
 import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
  * Test class for {@link de.holisticon.monitoring.tools.metricsgrabber.core.tools.ReflectionUtil}.
- * @author  Tobias Gindler, Holisticon AG on 17.07.14.
+ *
+ * @author Tobias Gindler, Holisticon AG on 17.07.14.
  */
 public class ReflectionUtilTest {
 
@@ -19,20 +20,20 @@ public class ReflectionUtilTest {
         String givenClassName = JBossCliReader.class.getCanonicalName();
         Class<MetricReader> givenResultType = MetricReader.class;
 
-        MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
-        
+        MetricReader reader = ReflectionUtil.createInstance(givenClassName, givenResultType);
+
         MatcherAssert.assertThat(reader, Matchers.notNullValue());
 
 
     }
 
     @Test
-         public void createInstance_should__not_create_instance_for_not_existing_type() {
+    public void createInstance_should__not_create_instance_for_not_existing_type() {
 
         String givenClassName = JBossCliReader.class.getCanonicalName() + "XXX";
         Class<MetricReader> givenResultType = MetricReader.class;
 
-        MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
+        MetricReader reader = ReflectionUtil.createInstance(givenClassName, givenResultType);
 
         MatcherAssert.assertThat(reader, Matchers.nullValue());
 
@@ -45,7 +46,7 @@ public class ReflectionUtilTest {
         String givenClassName = JBossCliReader.class.getCanonicalName();
         Class<OutputWriter> givenResultType = OutputWriter.class;
 
-        OutputWriter reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
+        OutputWriter reader = ReflectionUtil.createInstance(givenClassName, givenResultType);
 
         MatcherAssert.assertThat(reader, Matchers.nullValue());
 
@@ -58,7 +59,7 @@ public class ReflectionUtilTest {
         String givenClassName = null;
         Class<MetricReader> givenResultType = MetricReader.class;
 
-        MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
+        MetricReader reader = ReflectionUtil.createInstance(givenClassName, givenResultType);
 
         MatcherAssert.assertThat(reader, Matchers.nullValue());
 
@@ -71,7 +72,7 @@ public class ReflectionUtilTest {
         String givenClassName = JBossCliReader.class.getCanonicalName();
         Class<MetricReader> givenResultType = null;
 
-        MetricReader reader = ReflectionUtil.createInstance(givenClassName,givenResultType);
+        MetricReader reader = ReflectionUtil.createInstance(givenClassName, givenResultType);
 
         MatcherAssert.assertThat(reader, Matchers.nullValue());
 

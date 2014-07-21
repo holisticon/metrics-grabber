@@ -7,13 +7,6 @@
 
     <fileSets>
         <fileSet>
-            <directory>target</directory>
-            <outputDirectory></outputDirectory>
-            <includes>
-                <include>*.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>target/lib</directory>
             <outputDirectory>lib</outputDirectory>
             <includes>
@@ -21,4 +14,16 @@
             </includes>
         </fileSet>
     </fileSets>
+
+    <files>
+        <file>
+            <source>target/${artifactId}-${version}.${packaging}</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>${artifactId}.${packaging}</destName>
+        </file>
+        <file>
+            <source>src/assembly/logback.xml</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+    </files>
 </assembly>

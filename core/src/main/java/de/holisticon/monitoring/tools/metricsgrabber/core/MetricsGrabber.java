@@ -9,10 +9,12 @@ import de.holisticon.monitoring.tools.metricsgrabber.core.output.OutputWriter;
 import de.holisticon.monitoring.tools.metricsgrabber.core.tools.ActivateableFilter;
 import de.holisticon.monitoring.tools.metricsgrabber.core.tools.NamedThreadFactory;
 import de.holisticon.monitoring.tools.metricsgrabber.core.tools.ReflectionUtil;
+import org.jboss.as.cli.impl.CliShutdownHook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -43,12 +45,47 @@ public class MetricsGrabber {
 
     /**
      * Entry point for metrics agent
-     *
      */
-    public void start() throws IOException {
+    public void start() {
 
 
         metricGrabberExecutorService = Executors.newScheduledThreadPool(configuration.getNrOfMetricThreads(), new NamedThreadFactory("cli-metrics-grabber-", true));
+
+        metricGrabberExecutorService.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("RUN FULL GC and FINALIZATION");
+
+                /*
+                System.gc();
+                System.runFinalization();
+                */
+
+                try {
+                    Field field = CliShutdownHook.class.getDeclaredField("handlers");
+                    field.setAccessible(true);
+                    List list = (List) field.get(null);
+                    list.clear();
+                    /*
+                    int length = list.size();
+                    for (int i = 0; i < length; i++) {
+
+                        try {
+                            Object obj = list.remove(0);
+                            Method method = obj.getClass().getDeclaredMethod("shutdown");
+                            method.setAccessible(true);
+                            method.invoke(obj);
+                        } catch (Throwable t) {
+                        }
+                    }
+                    */
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, 1, 5, TimeUnit.MINUTES);
 
         // get output writer configuration
         final OutputWriter[] outputWriters = getOutputWriters();
@@ -75,10 +112,6 @@ public class MetricsGrabber {
                             List<Metric> metrics = metricReader.readMetrics(metricConfiguration);
 
                             if (metrics != null && metrics.size() > 0) {
-
-                                for (Metric metric : metrics) {
-                                    logger.info("[" + metric.getTimestamp() + "] : '" + metric.getName() + "' := '" + metric.getValue() + "'");
-                                }
 
                                 for (OutputWriter outputWriter : outputWriters) {
                                     outputWriter.writeMetrics(metrics);
