@@ -1,12 +1,11 @@
-metrics-grabber
-===============
+# metrics-grabber
 
-Grabs metrics on JBoss AS 7+ via CLI and sends them to analyzing frameworks like graphite.
+> Grabs metrics on JBoss AS 7+ via CLI and sends them to analyzing frameworks like graphite.
 
-There's JMX, why do we need grabbing metrics via the CLI Api?
--------------------------------------------------------------
+## There's JMX, why do we need grabbing metrics via the CLI Api?
 
-Because using JMX with the JBOSS AS 7+ is very very expensive. In our environments the JBoss AS allocated up to 40MB for a single JMX query (for example database connection pool sizes).
+Because using JMX with the JBOSS AS 7+ to collect application server specific metrics is very very expensive. 
+In our environments the JBoss AS allocated 5 to 40MB for a single application server specific JMX query (for example database connection or thread pool sizes).
 Monitoring our application servers therefore lead to heavy CPU load because of triggered garbage collections.
 
 Same queries done via the JBOSS CLI API was more or less cost neutral (About 1MB memory per query).
@@ -16,3 +15,19 @@ Therefore the metrics grabber project offers a standalone agent and a embedded l
 
 The agent works already very stable, so feel free to give it a try. 
 The embedded libraries are still in development.
+
+## Note : About querying non JBoss application server specific JMX beans
+
+We didn't notice any performance implications while querying non JBoss application server specific metrics like offered by the JVM.
+
+## Contributions
+
+- (2014) Tobias Gindler (Holisticon AG)
+
+## Sponsoring
+
+This project is sponsored and supported by [holisticon AG](http://www.holisticon.de/)
+
+# License
+
+This project is released under the revised [BSD License](LICENSE).
