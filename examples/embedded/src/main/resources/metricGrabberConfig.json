@@ -29,33 +29,10 @@
         "active" : true,
         "metrics" : [
             {
-                "metricPrefix":"example.dbpool.ProcessEngine",
-                "metricQueryString":"/subsystem=datasources/xa-data-source=ProcessEngine/statistics=pool:read-resource(include-runtime=true)",
+                "metricPrefix":"example.remoting",
+                "metricQueryString":"/subsystem=remoting:read-resource(include-runtime=true)",
                 "queryIntervalInSeconds": 4,
-                "active" : false
-            },
-            {
-                "metricPrefix":"example.dbpool.archiveserviceDS",
-                "metricQueryString":"/subsystem=datasources/xa-data-source=archiveserviceDS/statistics=pool:read-resource(include-runtime=true)",
-                "queryIntervalInSeconds": 4
-            },
-            {
-              "metricQueryString": "/subsystem=threads/bounded-queue-thread-pool=job-executor-tp:read-resource(include-runtime=true)",
-              "metricPrefix": "example.threadpool.jobexecutor",
-              "attributes": ["currentThreadCount","maxThreads","queueSize","queueLength","largestThreadCount","coreThreads"],
-              "queryIntervalInSeconds": 4
-            },
-            {
-              "metricQueryString": "/subsystem=jca/workmanager=default/short-running-threads=default:read-resource(include-runtime=true)",
-              "metricPrefix": "example.threadpool.jca.short-running-threads",
-              "attributes": ["currentThreadCount","maxThreads","queueSize","queueLength","largestThreadCount","coreThreads"],
-              "queryIntervalInSeconds": 4
-            },
-            {
-              "metricQueryString": "/subsystem=jca/workmanager=default/long-running-threads=default:read-resource(include-runtime=true)",
-              "metricPrefix": "example.threadpool.jca.long-running-threads",
-              "attributes": ["currentThreadCount","maxThreads","queueSize","queueLength","largestThreadCount","coreThreads"],
-              "queryIntervalInSeconds": 4
+                "active" : true
             }
 
         ]
