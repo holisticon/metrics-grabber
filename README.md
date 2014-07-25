@@ -1,11 +1,14 @@
 # metrics-grabber
 
-> Grabs metrics on JBoss AS 7+ via CLI and sends them to analyzing frameworks like graphite.
+[![Build Status](https://secure.travis-ci.org/holisticon/metrics-grabber.png)](https://travis-ci.org/holisticon/metrics-grabber)
+[![Coverage Status](https://coveralls.io/repos/holisticon/metrics-grabber/badge.png)](https://coveralls.io/r/holisticon/metrics-grabber)
+
+> Grabs metrics on JBoss AS 7+ (or EAP > 6.1.0 GA) via CLI and sends them to analyzing frameworks like graphite.
 
 ## There's JMX, why do we need grabbing metrics via the CLI Api?
 
-Because using JMX with the JBOSS AS 7+ to collect application server specific metrics is very very expensive. 
-In our environments the JBoss AS allocated 5 to 40MB for a single application server specific JMX query (for example database connection or thread pool sizes).
+Because using JMX with the JBOSS AS 7.3+ (since EAP 6.2.0 GA) to collect application server specific metrics is very very expensive. 
+In our environments the JBoss AS allocated 5 MB up to 40MB for a single application server specific JMX query (for example database connection or thread pool sizes).
 Monitoring our application servers therefore lead to heavy CPU load because of triggered garbage collections.
 
 Same queries done via the JBOSS CLI API was more or less cost neutral (About 1MB memory per query).
