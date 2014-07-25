@@ -4,8 +4,7 @@ jdk:
 script: mvn verify -B
 after_success: ! '[[ $TRAVIS_BRANCH == "master" && $TRAVIS_REPO_SLUG == "holisticon/metrics-grabber"
   && $TRAVIS_PULL_REQUEST == "false" ]] && { curl https://raw.githubusercontent.com/holisticon/travis-configuration/master/settings.xml --location
-  --create-dirs -o target/travis/settings.xml; } && { mvn cobertura:cobertura coveralls:cobertura deploy --settings target/travis/settings.xml
-  -Dgpg.skip=true; }'
+  --create-dirs -o target/travis/settings.xml; }'
 env:
   global:
   - secure: Ixk3qUo+E+ypPRqbY6aaNzsE8fn2OgoEeGpXmSYSm7R8969+ugnNGGX+Hg8tUUNxVPZcIeoJYfNELR1yEDDAf0YSLfB439cOT1cfSe8dldbgmpzj2Bk78UjmwmOtPD3uLXFBiZoxxPcyjtViB3noau6ylddQW0SbVnxZdhsIdeY=

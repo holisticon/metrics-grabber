@@ -1,7 +1,6 @@
 # metrics-grabber
 
 [![Build Status](https://secure.travis-ci.org/holisticon/metrics-grabber.png)](https://travis-ci.org/holisticon/metrics-grabber)
-[![Coverage Status](https://coveralls.io/repos/holisticon/metrics-grabber/badge.png)](https://coveralls.io/r/holisticon/metrics-grabber)
 
 > Grabs metrics on JBoss AS 7+ (or EAP > 6.1.0 GA) via CLI and sends them to analyzing frameworks like graphite.
 
