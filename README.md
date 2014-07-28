@@ -6,12 +6,12 @@
 
 ## There's JMX, why do we need grabbing metrics via the CLI Api?
 
-Because using JMX with the JBOSS AS 7.3+ (since EAP 6.2.0 GA) to collect application server specific metrics is very very expensive. 
-In our environments the JBoss AS allocated 5 MB up to 40MB for a single application server specific JMX query (for example database connection or thread pool sizes).
-Monitoring our application servers therefore lead to heavy CPU load because of triggered garbage collections.
+We ran into the situation that querying JMX was very expensive in our environments (EAP 6.1.0 GA and EAP 6.2.0 GA).
+A single jboss as related JMX query  allocated 5 MB up to 40MB memory (for example database connection or thread pool sizes).
+Monitoring our application servers therefore lead to a significant CPU load because of triggered garbage collections.
 
-Same queries done via the JBOSS CLI API was more or less cost neutral (About 1MB memory per query).
-So using the CLI API helps you minimize monitoring impact to your JBoss Appplication server.
+Same queries done via the JBOSS CLI API were more or less cost neutral (they took about 2MB memory per query).
+So using the CLI API helped us to minimize monitoring impact to your JBoss Appplication server.
 
 Therefore the metrics grabber project offers a standalone agent and a embedded library that allows you grab metrics from inside a deployed WAR.
 
