@@ -12,11 +12,11 @@
         "initParameters": [
             {
                 "name":"host",
-                "value":"127.0.0.1"
+                "value":"${metricsGrabber.graphite.host:127.0.0.1}"
             },
             {
                 "name":"port",
-                "value":"2003"
+                "value":"${metricsGrabber.graphite.port:2003}"
             },
             {
                 "name":"charset",
@@ -26,6 +26,16 @@
     }],
     "metricReaders": [{
         "type" : "de.holisticon.monitoring.tools.metricsgrabber.core.input.JBossCliReader",
+        "initParameters": [
+                    {
+                        "name":"host",
+                        "value":"${jboss.bind.address.management:127.0.0.1}"
+                    },
+                    {
+                        "name":"port",
+                        "value":"${jboss.management.native.port:9999}"
+                    }
+                ],
         "active" : true,
         "metrics" : [
             {
@@ -33,24 +43,6 @@
                 "metricQueryString":"/subsystem=remoting:read-resource(include-runtime=true)",
                 "queryIntervalInSeconds": 4,
                 "active" : true
-            }
-
-        ]
-    },
-    {
-        "type" : "de.holisticon.monitoring.tools.metricsgrabber.core.input.JmxReader",
-        "active" : false,
-        "metrics" : [
-            {
-                "metricPrefix":"example.dbpool.ProcessEngine",
-                "metricQueryString":"jboss.as.expr:subsystem=datasources,xa-data-source=ProcessEngine,statistics=pool",
-                "queryIntervalInSeconds": 10,
-                "active" : false
-            },
-            {
-                "metricPrefix":"example.dbpool.archiveserviceDS",
-                "metricQueryString":"jboss.as.expr:subsystem=datasources,xa-data-source=archiveserviceDS,statistics=pool",
-                "queryIntervalInSeconds": 10
             }
 
         ]
