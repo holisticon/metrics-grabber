@@ -109,15 +109,19 @@ public class MetricsGrabber {
                         @Override
                         public void run() {
 
-                            List<Metric> metrics = metricReader.readMetrics(metricConfiguration);
+                            try {
+                                List<Metric> metrics = metricReader.readMetrics(metricConfiguration);
 
-                            if (metrics != null && metrics.size() > 0) {
+                                if (metrics != null && metrics.size() > 0) {
 
-                                for (OutputWriter outputWriter : outputWriters) {
-                                    outputWriter.writeMetrics(metrics);
+                                    for (OutputWriter outputWriter : outputWriters) {
+                                        outputWriter.writeMetrics(metrics);
+                                    }
                                 }
-                            }
 
+                            } catch (Exception e) {
+                                logger.warn("Error happened during:");
+                            }
 
                         }
                     }, 1, metricConfiguration.getQueryIntervalInSeconds(), TimeUnit.SECONDS);
